@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Qeleme Exams – Freshman Prep</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;background:#1a0a2e;margin:0;display:flex;justify-content:center;min-height:100vh}
+.phone{width:100%;max-width:420px;background:#fff;min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden}
+.screen{display:none;flex-direction:column;flex:1;overflow:hidden}
+.screen.active{display:flex}
+.top{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.back{width:36px;height:36px;background:rgba(255,255,255,.2);border:none;border-radius:10px;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.title{font-weight:700;font-size:16px;flex:1}
+.area{flex:1;overflow-y:auto;background:#f9fafb;padding:16px;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+.home-h{background:linear-gradient(135deg,#7C3AED,#5B21B6);color:#fff;padding:12px 16px 18px;flex-shrink:0}
+.htop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.htop button{width:38px;height:38px;background:rgba(255,255,255,.15);border:none;border-radius:10px;color:#fff;font-size:16px}
+.greet{flex:1;margin-left:10px;font-weight:600;font-size:15px}
+.pts{background:rgba(255,255,255,.2);padding:5px 10px;border-radius:16px;font-weight:700;font-size:13px}
+.pts span{color:#fbbf24}
+.banner{background:linear-gradient(135deg,#1e3a8a,#1e40af);border-radius:14px;padding:12px;display:flex;gap:10px;align-items:center}
+.bemoji{width:70px;height:70px;background:#3b82f6;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:32px;flex-shrink:0}
+.btext h2{font-size:17px;font-weight:800}
+.btext h2 span{color:#fbbf24}
+.btag{display:inline-block;background:#3b82f6;font-size:10px;padding:2px 6px;border-radius:4px;margin:3px 0}
+.bmeta{font-size:11px;opacity:.9}
+.comp{background:linear-gradient(135deg,#f97316,#fb923c);border-radius:14px;padding:12px;display:flex;align-items:center;gap:10px;color:#fff;margin-bottom:18px;cursor:pointer}
+.cicon{width:42px;height:42px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.cinfo{flex:1}
+.cinfo .t{font-weight:700;font-size:13px}
+.cinfo .s{font-size:11px;margin:2px 0 4px}
+.ctags span{background:rgba(255,255,255,.25);font-size:10px;padding:2px 6px;border-radius:8px;margin-right:4px}
+.cbtn{background:#fff;color:#ea580c;border:none;padding:7px 12px;border-radius:16px;font-weight:700;font-size:12px}
+.sec{font-size:16px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec:before{content:'';width:3px;height:16px;background:#7c3aed;border-radius:2px}
+.card{background:#fff;border-radius:12px;padding:13px;display:flex;align-items:center;gap:12px;margin-bottom:10px;box-shadow:0 1px 8px rgba(0,0,0,.06);cursor:pointer}
+.card:active{opacity:.85}
+.icon{width:44px;height:44px;border-radius:11px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.info h3{font-size:14px;font-weight:700}
+.info p{font-size:12px;color:#6b7280;margin-top:1px}
+.arr{color:#9ca3af;font-size:18px;margin-left:auto}
+.bnav{position:absolute;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 4px 16px;z-index:50}
+.nav{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10px;color:#9ca3af;padding:4px 8px;border-radius:10px;cursor:pointer;min-width:56px}
+.nav.on{color:#7c3aed;background:#f3e8ff}
+.nav .i{font-size:18px}
+.ch{background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:10px;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.ch h4{font-size:13px;font-weight:600;margin-bottom:4px}
+.ch .meta{font-size:11px;color:#6b7280;margin-bottom:8px}
+.ch .acts{display:flex;gap:8px}
+.btn{border:none;border-radius:8px;padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.btn-n{background:#eef2ff;color:#4f46e5}
+.btn-e{background:#fef3c7;color:#d97706}
+.note{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.note h3{font-size:15px;font-weight:700;color:#7c3aed;margin-bottom:6px}
+.note p{font-size:13px;line-height:1.55;margin-bottom:6px}
+.amh{background:#f0fdf4;border-left:3px solid #10b981;padding:8px 10px;border-radius:0 6px 6px 0;font-size:13px;margin-top:6px}
+.note ul{padding-left:16px;margin:6px 0}
+.note li{font-size:13px;margin-bottom:3px;line-height:1.4}
+.key{background:#fef3c7;border-radius:8px;padding:10px;margin-top:8px;font-size:12px}
+.prog{background:#fff;padding:10px 16px;display:flex;justify-content:space-between;font-size:12px;font-weight:600;border-bottom:1px solid #e5e7eb}
+.bar{height:5px;background:#e5e7eb;margin:0 16px 10px;border-radius:3px;overflow:hidden}
+.fill{height:100%;background:#7c3aed;transition:width .25s}
+.qcard{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 8px rgba(0,0,0,.05)}
+.qnum{font-size:11px;color:#7c3aed;font-weight:700;margin-bottom:6px}
+.qtxt{font-size:14px;font-weight:600;line-height:1.45;margin-bottom:12px}
+.opt{border:2px solid #e5e7eb;border-radius:10px;padding:11px 12px;margin-bottom:8px;font-size:13px;cursor:pointer;display:flex;align-items:flex-start;gap:8px}
+.opt:active{background:#f9f5ff}
+.opt.sel{border-color:#7c3aed;background:#f3e8ff}
+.opt.ok{border-color:#10b981;background:#ecfdf5}
+.opt.bad{border-color:#ef4444;background:#fef2f2}
+.let{width:24px;height:24px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.opt.sel .let{background:#7c3aed;color:#fff}
+.opt.ok .let{background:#10b981;color:#fff}
+.opt.bad .let{background:#ef4444;color:#fff}
+.exp{display:none;margin-top:10px;padding:10px;background:#f0f9ff;border-radius:8px;font-size:12px;line-height:1.5}
+.exp.show{display:block}
+.exp .a{margin-top:6px;padding-top:6px;border-top:1px dashed #bae6fd;color:#0369a1}
+.acts{display:flex;gap:8px}
+.b{flex:1;border:none;border-radius:10px;padding:12px;font-weight:700;font-size:13px;cursor:pointer}
+.bp{background:#7c3aed;color:#fff}
+.bs{background:#f3f4f6;color:#1f2937}
+.b:disabled{opacity:.45}
+.res{background:#fff;border-radius:16px;padding:22px 16px;text-align:center;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.sc{font-size:42px;font-weight:800;color:#7c3aed}
+.sl{font-size:13px;color:#6b7280;margin:4px 0 14px}
+.st{display:flex;justify-content:space-around;border-top:1px solid #f3f4f6;padding-top:14px}
+.st .n{font-size:18px;font-weight:700}
+.st .l{font-size:11px;color:#6b7280}
+.leader{background:#fff;border-radius:12px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 6px rgba(0,0,0,.05)}
+.rank{width:32px;height:32px;border-radius:50%;background:#f3e8ff;color:#7c3aed;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.rank.gold{background:#fef3c7;color:#d97706}
+.rank.silver{background:#f1f5f9;color:#64748b}
+.rank.bronze{background:#ffedd5;color:#c2410c}
+.prof-card{background:#fff;border-radius:14px;padding:20px;text-align:center;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 10px}
+</style>
+</head>
+<body>
+<div class="phone">
+
+<!-- HOME -->
+<div id="home" class="screen active">
+<div class="home-h">
+<div class="htop">
+<button onclick="go('profile')">☰</button>
+<div class="greet">Hello, Student</div>
+<div class="pts"><span>★</span> <span id="homePoints">5000</span></div>
+<button onclick="go('leader')">➤</button>
+</div>
+<div class="banner">
+<div class="bemoji">👩‍🎓</div>
+<div class="btext">
+<h2>QELEME <span>EXAMS</span></h2>
+<div class="btag">#1 Freshman Students' Choice</div>
+<div class="bmeta">Since 2013 EC • Learn • Practice • Win</div>
+</div>
+</div>
+</div>
+<div class="area">
+<div class="comp" onclick="go('courses')">
+<div class="cicon">⏱</div>
+<div class="cinfo">
+<div class="t">Logic Competition Ready!</div>
+<div class="s">Chapter 1 – Meaning of Philosophy</div>
+<div class="ctags"><span>Fresh</span><span>★ 30 pts</span><span>5 Qs</span></div>
+</div>
+<button class="cbtn">Start Now →</button>
+</div>
+<div class="sec">Programs</div>
+<div class="card" onclick="go('courses')">
+<div class="icon">🎓</div>
+<div class="info"><h3>Freshman</h3><p>Full Notes + Practice Exams</p></div>
+<div class="arr">›</div>
+</div>
+<div class="card" onclick="go('courses')">
+<div class="icon">🏛</div>
+<div class="info"><h3>UAT</h3><p>University Admission Test prep</p></div>
+<div class="arr">›</div>
+</div>
+<div class="card" onclick="go('courses')">
+<div class="icon">🛡</div>
+<div class="info"><h3>Health CoC</h3><p>Healthcare Certificate of Competence</p></div>
+<div class="arr">›</div>
+</div>
+</div>
+</div>
+
+<!-- COURSES -->
+<div id="courses" class="screen">
+<div class="top"><button class="back" onclick="go('home')">←</button><div class="title">Freshman Courses</div></div>
+<div class="area">
+<div class="card" onclick="openCourse('logic')">
+<div class="icon">🧠</div>
+<div class="info"><h3>Logic</h3><p>2 Chapters • Notes + Exams</p></div>
+<div class="arr">›</div>
+</div>
+<div class="card" onclick="openCourse('civics')">
+<div class="icon">🇪🇹</div>
+<div class="info"><h3>Civics & Ethical Education</h3><p>1 Chapter • Notes + Exams</p></div>
+<div class="arr">›</div>
+</div>
+<div class="card" onclick="openCourse('english')">
+<div class="icon">📘</div>
+<div class="info"><h3>Communicative English</h3><p>1 Chapter • Notes + Exams</p></div>
+<div class="arr">›</div>
+</div>
+<div class="card" onclick="openCourse('geo')">
+<div class="icon">🌍</div>
+<div class="info"><h3>Geography of Ethiopia</h3><p>1 Chapter • Notes + Exams</p></div>
+<div class="arr">›</div>
+</div>
+</div>
+</div>
+
+<!-- CHAPTERS -->
+<div id="chapters" class="screen">
+<div class="top"><button class="back" onclick="go('courses')">←</button><div class="title" id="chTitle">Chapters</div></div>
+<div class="area" id="chList"></div>
+</div>
+
+<!-- NOTES -->
+<div id="notes" class="screen">
+<div class="top"><button class="back" onclick="go('chapters')">←</button><div class="title" id="nTitle">Notes</div></div>
+<div class="area" id="nContent"></div>
+</div>
+
+<!-- QUIZ -->
+<div id="quiz" class="screen">
+<div class="top"><button class="back" onclick="if(confirm('Exit this exam? Progress will be lost.'))go('chapters')">←</button><div class="title" id="qTitle">Practice</div></div>
+<div class="prog"><span id="qCount">Q 1/5</span><span id="qScore">Score: 0</span></div>
+<div class="bar"><div class="fill" id="qBar" style="width:20%"></div></div>
+<div class="area" id="qArea"></div>
+</div>
+
+<!-- RESULT -->
+<div id="result" class="screen">
+<div class="top"><button class="back" onclick="go('chapters')">←</button><div class="title">Result</div></div>
+<div class="area">
+<div class="res">
+<div class="sc" id="final">0/5</div>
+<div class="sl">Your Score</div>
+<div class="st">
+<div><div class="n" id="ok" style="color:#10b981">0</div><div class="l">Correct</div></div>
+<div><div class="n" id="bad" style="color:#ef4444">0</div><div class="l">Wrong</div></div>
+<div><div class="n" id="pct">0%</div><div class="l">Accuracy</div></div>
+</div>
+</div>
+<button class="b bp" style="width:100%;margin-bottom:8px" onclick="retry()">Try Again</button>
+<button class="b bs" style="width:100%;margin-bottom:8px" onclick="go('chapters')">Back to Chapters</button>
+<button class="b bs" style="width:100%" onclick="go('home')">Go Home</button>
+</div>
+</div>
+
+<!-- LEADERBOARD -->
+<div id="leader" class="screen">
+<div class="top"><button class="back" onclick="go('home')">←</button><div class="title">Leaderboard</div></div>
+<div class="area">
+<div class="leader"><div class="rank gold">1</div><div class="info"><h3>Tinsae</h3><p>Logic • 30/30</p></div><div style="margin-left:auto;font-weight:700;color:#7c3aed">★ 3200</div></div>
+<div class="leader"><div class="rank silver">2</div><div class="info"><h3>Abel</h3><p>Civics • 28/30</p></div><div style="margin-left:auto;font-weight:700;color:#7c3aed">★ 2850</div></div>
+<div class="leader"><div class="rank bronze">3</div><div class="info"><h3>Hanna</h3><p>English • 27/30</p></div><div style="margin-left:auto;font-weight:700;color:#7c3aed">★ 2700</div></div>
+<div class="leader"><div class="rank">4</div><div class="info"><h3>You</h3><p>Keep practicing!</p></div><div style="margin-left:auto;font-weight:700;color:#7c3aed">★ <span id="youPoints">5000</span></div></div>
+<div class="leader"><div class="rank">5</div><div class="info"><h3>Kidus</h3><p>Geography • 25/30</p></div><div style="margin-left:auto;font-weight:700;color:#7c3aed">★ 2400</div></div>
+</div>
+</div>
+
+<!-- PROFILE -->
+<div id="profile" class="screen">
+<div class="top"><button class="back" onclick="go('home')">←</button><div class="title">Profile</div></div>
+<div class="area">
+<div class="prof-card">
+<div class="avatar">👤</div>
+<h3 style="font-size:18px;margin-bottom:4px">Student</h3>
+<p style="color:#6b7280;font-size:13px">Freshman • Ethiopia</p>
+<div style="margin-top:12px;font-size:22px;font-weight:800;color:#7c3aed">★ <span id="profPoints">5000</span></div>
+<p style="font-size:12px;color:#6b7280">Total Points</p>
+</div>
+<div class="card" onclick="go('courses')"><div class="icon">📚</div><div class="info"><h3>My Courses</h3><p>Continue learning</p></div><div class="arr">›</div></div>
+<div class="card" onclick="go('leader')"><div class="icon">🏆</div><div class="info"><h3>Leaderboard</h3><p>See rankings</p></div><div class="arr">›</div></div>
+<div class="card" onclick="alert('This is a demo version of Qeleme Exams.\n\nAll features work offline.')"><div class="icon">ℹ️</div><div class="info"><h3>About</h3><p>Demo version</p></div><div class="arr">›</div></div>
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav">
+<div class="nav on" onclick="go('home')"><div class="i">🏠</div>Home</div>
+<div class="nav" onclick="go('courses')"><div class="i">📚</div>Courses</div>
+<div class="nav" onclick="go('leader')"><div class="i">🏆</div>Champions</div>
+<div class="nav" onclick="go('courses')"><div class="i">🎓</div>Programs</div>
+<div class="nav" onclick="go('profile')"><div class="i">👤</div>Profile</div>
+</div>
+</div>
+
+<script>
+const data={
+logic:{title:"Logic",chapters:[
+{name:"Ch 1: Meaning & Nature of Philosophy",
+notes:`<div class="note"><h3>📖 What is Philosophy?</h3><p>Philosophy is the love of wisdom. It is a critical and systematic approach to fundamental questions about existence, knowledge, values, reason, mind and language.</p><div class="amh"><strong>አማርኛ:</strong> ፍልስፍና ማለት የጥበብ ፍቅር ነው። ስለ ሕልውና፣ እውቀት፣ እሴቶች፣ ምክንያት፣ አእምሮ እና ቋንቋ መሰረታዊ ጥያቄዎችን በሥርዓት የሚያጤን ጥናት ነው።</div></div>
+<div class="note"><h3>🔑 Branches of Philosophy</h3><ul><li><strong>Metaphysics</strong> – study of reality</li><li><strong>Epistemology</strong> – study of knowledge</li><li><strong>Ethics</strong> – study of morality</li><li><strong>Logic</strong> – study of correct reasoning</li><li><strong>Aesthetics</strong> – study of beauty</li></ul><div class="key"><strong>Key Point:</strong> Logic is the tool of philosophy.</div></div>`,
+qs:[
+{q:"Philosophy is best defined as:",o:["The love of wisdom","The study of nature only","A type of religion","A political system"],a:0,e:"From Greek philo (love) + sophia (wisdom).",am:"ከግሪክ 'ፊሎ' (ፍቅር) + 'ሶፊያ' (ጥበብ) የመጣ ነው።"},
+{q:"Which branch studies the nature of knowledge?",o:["Metaphysics","Epistemology","Ethics","Aesthetics"],a:1,e:"Epistemology is the theory of knowledge.",am:"ኤፒስቴሞሎጂ የእውቀት ጥናት ነው።"},
+{q:"Logic is mainly concerned with:",o:["Emotions","Correct reasoning","Beauty","Politics"],a:1,e:"Logic studies principles of valid inference.",am:"ሎጂክ ትክክለኛ የማመዛዘን መርሆዎችን ያጠናል።"},
+{q:"Metaphysics deals with:",o:["What is real?","What is beautiful?","What is moral?","How to argue?"],a:0,e:"Metaphysics explores the nature of reality.",am:"ሜታፊዚክስ ስለ እውነታ መሰረታዊ ጥያቄዎችን ያጠናል።"},
+{q:"Main goal of philosophy is to:",o:["Memorize facts","Seek understanding and wisdom","Win debates only","Create laws"],a:1,e:"Philosophy aims at deep understanding through critical thinking.",am:"ፍልስፍና በጥልቀት ለመረዳት እና ጥበብን ለማግኘት ይጥራል።"}
+]},
+{name:"Ch 2: Basic Concepts of Logic",
+notes:`<div class="note"><h3>📖 Argument, Premise & Conclusion</h3><p>An <strong>argument</strong> is a set of statements where some (premises) support another (conclusion).</p><div class="amh"><strong>አማርኛ:</strong> ክርክር ማለት አንዳንድ ሀሳቦች (መነሻዎች) ሌላውን ሀሳብ (መደምደሚያ) ለመደገፍ የሚቀርቡበት የሀሳቦች ስብስብ ነው።</div></div>
+<div class="note"><h3>🔑 Key Terms</h3><ul><li><strong>Premise</strong> – reason or evidence</li><li><strong>Conclusion</strong> – statement supported by premises</li><li><strong>Inference</strong> – moving from premises to conclusion</li></ul><div class="key"><strong>Example:</strong><br>All humans are mortal. (Premise)<br>Socrates is human. (Premise)<br>∴ Socrates is mortal. (Conclusion)</div></div>`,
+qs:[
+{q:"The statement that is supported is called:",o:["Premise","Conclusion","Assumption","Evidence"],a:1,e:"Conclusion is the claim premises support.",am:"መደምደሚያ ማለት መነሻዎቹ የሚደግፉት ሀሳብ ነው።"},
+{q:"A premise is:",o:["The final claim","A reason supporting the conclusion","Always true","An emotion"],a:1,e:"Premises provide reasons for the conclusion.",am:"መነሻዎች መደምደሚያውን የሚደግፉ ምክንያቶች ናቸው።"},
+{q:"Which is a conclusion indicator?",o:["Because","Since","Therefore","For the reason that"],a:2,e:"Therefore, thus, hence, so indicate conclusions.",am:"'ስለዚህ' የመደምደሚያ አመልካች ነው።"},
+{q:"An argument must contain at least:",o:["One premise and one conclusion","Two conclusions","Only premises","No statements"],a:0,e:"Minimal argument has ≥1 premise + 1 conclusion.",am:"ቢያንስ አንድ መነሻ እና አንድ መደምደሚያ ሊኖረው ይገባል።"},
+{q:"Deriving a conclusion from premises is called:",o:["Definition","Inference","Description","Narration"],a:1,e:"Inference is the process of reasoning.",am:"መደምደም (Inference) ከመነሻ ወደ መደምደሚያ የመሄድ ሂደት ነው።"}
+]}
+]},
+civics:{title:"Civics",chapters:[
+{name:"Ch 1: Building a Democratic System",
+notes:`<div class="note"><h3>📖 Democracy</h3><p>Democracy is government by the people, either directly or through elected representatives.</p><div class="amh"><strong>አማርኛ:</strong> ዲሞክራሲ ማለት ሥልጣን በሕዝብ የሚገኝበት የአስተዳደር ሥርዓት ነው።</div></div>
+<div class="note"><h3>🔑 Pillars of Democracy</h3><ul><li>Rule of Law</li><li>Free & Fair Elections</li><li>Human Rights</li><li>Separation of Powers</li><li>Citizen Participation</li></ul></div>`,
+qs:[
+{q:"Democracy means rule by:",o:["One person","The military","The people","Religious leaders only"],a:2,e:"From Greek demos (people) + kratos (power).",am:"ዲሞክራሲ ማለት የሕዝብ አገዛዝ ነው።"},
+{q:"A basic principle of democracy is:",o:["Rule of law","Absolute power of one leader","No elections","Censorship"],a:0,e:"Everyone including leaders is subject to the law.",am:"የሕግ የበላይነት ማለት ሁሉም ለሕግ ተገዥ መሆን ነው።"},
+{q:"Free elections are important because they:",o:["Allow citizens to choose leaders","Increase taxes","Reduce education","Stop criticism"],a:0,e:"Elections give legitimacy and peaceful power transfer.",am:"ነጻ ምርጫ ዜጎች መሪዎቻቸውን እንዲመርጡ ያስችላል።"}
+]}
+]},
+english:{title:"Communicative English",chapters:[
+{name:"Ch 1: Future Tense",
+notes:`<div class="note"><h3>📖 Future Forms</h3><p>Different structures for future:</p><ul><li><strong>Will + verb</strong> → spontaneous decisions, predictions</li><li><strong>Going to + verb</strong> → plans & intentions</li><li><strong>Present Continuous</strong> → fixed arrangements</li></ul><div class="key"><strong>Examples:</strong><br>I will help you. (decision now)<br>I am going to study tonight. (plan)<br>I am meeting the teacher at 3pm. (arrangement)</div></div>`,
+qs:[
+{q:"Which shows a spontaneous decision?",o:["I am going to call her later.","I will open the window.","I am meeting him tomorrow.","I study every day."],a:1,e:"Will is used for decisions at the moment of speaking.",am:"'Will' በንግግር ጊዜ የሚደረግ ውሳኔ ለመግለጽ ይጠቅማል።"},
+{q:"'I am going to visit my grandmother' shows:",o:["A prediction","A prior plan","A habit","A past action"],a:1,e:"Going to is for already decided plans.",am:"'Going to' አስቀድሞ የተወሰኑ ዕቅዶችን ይገልጻል።"},
+{q:"Correct form for a fixed arrangement:",o:["I will see the doctor tomorrow.","I am seeing the doctor tomorrow.","I see the doctor tomorrow.","I going to see the doctor."],a:1,e:"Present continuous is used for fixed future arrangements.",am:"ለተወሰኑ የወደፊት ዝግጅቶች Present Continuous እንጠቀማለን።"}
+]}
+]},
+geo:{title:"Geography",chapters:[
+{name:"Ch 1: Location & Size of Ethiopia",
+notes:`<div class="note"><h3>📖 Location of Ethiopia</h3><p>Ethiopia is in the Horn of Africa. It is landlocked, bordered by Eritrea, Djibouti, Somalia, Kenya, South Sudan and Sudan.</p><div class="amh"><strong>አማርኛ:</strong> ኢትዮጵያ በአፍሪካ ቀንድ ትገኛለች። በኤርትራ፣ ጅቡቲ፣ ሶማሊያ፣ ኬንያ፣ ደቡብ ሱዳን እና ሱዳን የተከበበች የባህር በር የሌላት ሀገር ናት።</div></div>
+<div class="note"><h3>🔑 Facts</h3><ul><li>Capital: Addis Ababa</li><li>Area: ~1.1 million km²</li><li>2nd most populous in Africa</li></ul></div>`,
+qs:[
+{q:"Ethiopia is located in:",o:["West Africa","Southern Africa","Horn of Africa","Central Africa"],a:2,e:"Ethiopia is in the Horn of Africa (Northeast).",am:"ኢትዮጵያ በአፍሪካ ቀንድ ትገኛለች።"},
+{q:"Landlocked means:",o:["Has many lakes","No direct access to the sea","Is an island","Has only one river"],a:1,e:"No coastline / no direct ocean access.",am:"የባህር በር የሌላት ማለት ቀጥተኛ የባህር ዳርቻ የሌላት ማለት ነው።"},
+{q:"Capital of Ethiopia is:",o:["Nairobi","Addis Ababa","Khartoum","Asmara"],a:1,e:"Addis Ababa is capital and AU seat.",am:"አዲስ አበባ የኢትዮጵያ ዋና ከተማ ናት።"}
+]}
+]}
+};
+
+let curCourse=null,curCh=null,qs=[],idx=0,score=0,done=false,points=5000;
+
+function updatePoints(){
+document.getElementById('homePoints').textContent=points;
+document.getElementById('youPoints').textContent=points;
+document.getElementById('profPoints').textContent=points;
+}
+
+function go(id){
+document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('.nav').forEach(n=>n.classList.remove('on'));
+if(id==='home')document.querySelectorAll('.nav')[0].classList.add('on');
+if(id==='courses'||id==='chapters')document.querySelectorAll('.nav')[1].classList.add('on');
+if(id==='leader')document.querySelectorAll('.nav')[2].classList.add('on');
+if(id==='profile')document.querySelectorAll('.nav')[4].classList.add('on');
+const nav=document.getElementById('bnav');
+nav.style.display=(id==='quiz'||id==='result'||id==='notes')?'none':'flex';
+}
+
+function openCourse(key){
+curCourse=data[key];
+document.getElementById('chTitle').textContent=curCourse.title;
+const list=document.getElementById('chList');
+list.innerHTML='';
+curCourse.chapters.forEach((ch,i)=>{
+list.innerHTML+=`<div class="ch"><h4>${ch.name}</h4><div class="meta">${ch.qs.length} Questions • Notes available</div><div class="acts"><button class="btn btn-n" onclick="openNotes('${key}',${i})">Notes</button><button class="btn btn-e" onclick="startQuiz('${key}',${i})">Exam</button></div></div>`;
+});
+go('chapters');
+}
+
+function openNotes(key,i){
+const ch=data[key].chapters[i];
+document.getElementById('nTitle').textContent=ch.name.split(':')[0];
+document.getElementById('nContent').innerHTML=ch.notes+`<button class="b bp" style="width:100%;margin-top:8px" onclick="startQuiz('${key}',${i})">Start Practice Exam →</button>`;
+go('notes');
+}
+
+function startQuiz(key,i){
+curCh=data[key].chapters[i];
+qs=curCh.qs;idx=0;score=0;done=false;
+document.getElementById('qTitle').textContent=curCh.name.split(':')[0];
+render();
+go('quiz');
+}
+
+function render(){
+const q=qs[idx],total=qs.length;
+document.getElementById('qCount').textContent=`Q ${idx+1}/${total}`;
+document.getElementById('qScore').textContent=`Score: ${score}`;
+document.getElementById('qBar').style.width=`${((idx+1)/total)*100}%`;
+let opts='';
+q.o.forEach((o,i)=>{opts+=`<div class="opt" id="o${i}" onclick="pick(${i})"><div class="let">${String.fromCharCode(65+i)}</div><div>${o}</div></div>`;});
+document.getElementById('qArea').innerHTML=`<div class="qcard"><div class="qnum">Question ${idx+1}</div><div class="qtxt">${q.q}</div>${opts}<div class="exp" id="exp"><strong>Explanation:</strong> ${q.e}<div class="a"><strong>አማርኛ:</strong> ${q.am}</div></div></div><div class="acts"><button class="b bs" id="next" disabled onclick="next()">${idx===total-1?'Finish':'Next →'}</button></div>`;
+done=false;
+}
+
+function pick(i){
+if(done)return;
+done=true;
+const q=qs[idx];
+document.querySelectorAll('.opt').forEach((el,j)=>{
+el.classList.remove('sel','ok','bad');
+if(j===q.a)el.classList.add('ok');
+else if(j===i)el.classList.add('bad');
+});
+if(i===q.a){score++;document.getElementById('qScore').textContent=`Score: ${score}`;}
+document.getElementById('exp').classList.add('show');
+document.getElementById('next').disabled=false;
+}
+
+function next(){
+if(idx<qs.length-1){idx++;render();}
+else{
+const t=qs.length,w=t-score,p=Math.round(score/t*100);
+document.getElementById('final').textContent=`${score}/${t}`;
+document.getElementById('ok').textContent=score;
+document.getElementById('bad').textContent=w;
+document.getElementById('pct').textContent=p+'%';
+// Award points
+points += score * 10;
+updatePoints();
+go('result');
+}
+}
+
+function retry(){idx=0;score=0;done=false;render();go('quiz');}
+
+updatePoints();
+</script>
+</body>
+</html>
